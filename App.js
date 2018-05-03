@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { Font, AppLoading } from "expo";
+import {View, Text, StyleSheet, ImageBackground} from 'react-native';
  import * as firebase from 'firebase';
-import {Col, Grid, Container, Content, Header, Form, Input, Button, Label, Item, Icon, InputGroup } from 'native-base';
+import {Col, Grid, Container, Content, Header, Form, Input, Button, Label, Item, Icon, InputGroup, Body,Title,Root, Left, Right  } from 'native-base';
 const firebaseConfig = {
   apiKey: "AIzaSyB_3qpbJc4hMhHuuRhnRgfHEM4Pof9_2ZM",
   authDomain: "login-c8f44.firebaseapp.com",
@@ -12,20 +13,56 @@ const firebaseConfig = {
 }
 firebase.initializeApp(firebaseConfig);
 
+
+
+
+
+
+
 export default class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { loading: true };
+  }
+  
+  async componentWillMount() {
+    await Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+    });
+    this.setState({ loading: false });
+  }
+
+
   render() {
+    if (this.state.loading) {
+      return (
+        <Root>
+          <AppLoading />
+        </Root>
+      );
+    }
     return (
+      
       <Container>
-      <Header />
-      <Content contentContainerStyle={{flex: 1}} style={{padding: 50}} theme={light}>
-      <Grid style={{alignItems: 'center'}}>
+        <Header>
+        <Left/>
+        <Body style={{alignContent:'center',flex:1, marginTop:20,justifyContent:'center'}}>
+          <Title>DUCNX APP</Title>
+        </Body>
+        <Right>
+         
+        </Right>
+        </Header>
+      <Content contentContainerStyle={{flex: 1}} style={{padding: 50}}>
+      <Grid style={{alignItems: 'flex-start'}}>
       <Col>
         <Form >
             <Item floatingLabel>
               <Icon active name="md-mail" />
               <Label>Email</Label>
-              <InputGroup
-                placeholder="placeholder" 
+              <Input
                 borderType="rounded"
                 autoCorrect={false}
                 autoCapitalize="none"
@@ -41,11 +78,11 @@ export default class App extends React.Component {
               />
             </Item>
               <Button 
-                style={{marginTop:20}}
+                style={{marginTop:10}}
                 success
-              // rounded
+                
                 full 
-                large
+                
                 >
                 <Icon name="md-log-in" />
                 <Text>Đăng Nhập</Text>
@@ -54,7 +91,7 @@ export default class App extends React.Component {
                 style={{marginTop:10}}
                 full
                 primary
-                large
+                
               >
                 <Icon name="md-person-add" />
                 <Text style={{alignItems:'flex-start'}}>Đăng Kí </Text>
@@ -65,6 +102,7 @@ export default class App extends React.Component {
         </Grid>
       </Content>
       </Container>
+      
     );
   }
 }
